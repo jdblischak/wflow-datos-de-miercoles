@@ -1,7 +1,7 @@
-name: "wflow-datos-de-miercoles"
+name: wflow-datos-de-miercoles
 output_dir: ../docs
 navbar:
-  title: "wflow-datos-de-miercoles"
+  title: wflow-datos-de-miercoles
   left:
   - text: Home
     href: index.html
@@ -9,6 +9,10 @@ navbar:
     href: about.html
   - text: License
     href: license.html
+  right:
+  - icon: fa-github
+    text: Source code
+    href: https://github.com/jdblischak/wflow-datos-de-miercoles
 output:
   workflowr::wflow_html:
     toc: yes
