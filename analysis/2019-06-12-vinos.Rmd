@@ -1,0 +1,28 @@
+---
+title: "2019-06-12-vinos"
+author: "John Blischak"
+date: "2019-06-12"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introduction
+
+* [Tweet](https://twitter.com/R4DS_es/status/1138831958337904641)
+* [Descripción](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-06-12)
+* [Datos](https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-06-12/vinos.csv)
+* [Fuente](https://www.kaggle.com/zynicide/wine-reviews)
+
+## Preparación
+
+```{r paqs, message=FALSE}
+library(tidyverse)
+library(cowplot)
+theme_set(theme_cowplot())
+```
+
+```{r datos, message=FALSE}
+vinos <- read_csv("data/vinos.csv")
+```
+

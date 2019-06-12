@@ -3,11 +3,11 @@ output_dir: ../docs
 navbar:
   title: wflow-datos-de-miercoles
   left:
-  - text: Home
+  - text: Inicio
     href: index.html
-  - text: About
+  - text: Acerca de
     href: about.html
-  - text: License
+  - text: Licencia
     href: license.html
   right:
   - icon: fa-github

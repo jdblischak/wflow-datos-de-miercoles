@@ -1,5 +1,5 @@
 ---
-title: "About"
+title: "Acerca de"
 output:
   workflowr::wflow_html:
     toc: false
@@ -7,4 +7,6 @@ editor_options:
   chunk_output_type: console
 ---
 
-Describe your project.
+Los análasis para el [#datosdemiercoles](https://twitter.com/search?l=&q=%23datosdemiercoles&src=typd).
+Para los data y más información, visita
+[cienciadedatos/datos-de-miercoles](https://github.com/cienciadedatos/datos-de-miercoles).
