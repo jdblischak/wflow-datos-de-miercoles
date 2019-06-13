@@ -11,7 +11,7 @@ navbar:
     href: license.html
   right:
   - icon: fa-github
-    text: Source code
+    text: Código
     href: https://github.com/jdblischak/wflow-datos-de-miercoles
 output:
   workflowr::wflow_html:

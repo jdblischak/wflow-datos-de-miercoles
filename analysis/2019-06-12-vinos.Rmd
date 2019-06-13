@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-## Introduction
+## Introducción
 
 * [Tweet](https://twitter.com/R4DS_es/status/1138831958337904641)
 * [Descripción](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-06-12)
@@ -17,6 +17,7 @@ editor_options:
 ## Preparación
 
 ```{r paqs, message=FALSE}
+library(stringr)
 library(tidyverse)
 library(cowplot)
 theme_set(theme_cowplot())
@@ -26,3 +27,199 @@ theme_set(theme_cowplot())
 vinos <- read_csv("data/vinos.csv")
 ```
 
+## Exploración
+
+```{r exploracion}
+head(vinos)
+plot(vinos$puntos, vinos$precio)
+dim(vinos)
+unique(vinos$pais)
+head(vinos$titulo_resena)
+```
+
+> País de origen
+
+```{r pais}
+head(vinos$pais)
+length(unique(vinos$pais))
+table(vinos$pais, useNA = "ifany")
+sum(table(vinos$pais) > 1000)
+sum(is.na(vinos$pais))
+```
+
+> Nombre del vino
+
+```{r nombre}
+head(vinos$nombre)
+length(unique(vinos$nombre))
+# Cuantos vinos con más que 5 reseñas?
+sum(table(vinos$nombre) > 5)
+sum(is.na(vinos$nombre))
+```
+
+> Puntos con que fue calificado (escala de 1 a 100)
+
+```{r puntos}
+head(vinos$puntos)
+summary(vinos$puntos)
+hist(vinos$puntos)
+stopifnot(is.integer(vinos$puntos))
+sum(is.na(vinos$puntos))
+```
+
+> Precio de la botella (en dólares estadounidenses)
+
+```{r precio}
+head(vinos$precio)
+summary(vinos$precio)
+hist(vinos$precio)
+stopifnot(is.integer(vinos$precio))
+sum(is.na(vinos$precio))
+sum(vinos$precio > 1000, na.rm = TRUE)
+```
+
+> Variedad (por ejemplo, Pinot Noir, Cabernet Sauvignon, etc.)
+
+```{r variedad}
+head(vinos$variedad)
+length(unique(vinos$variedad))
+sum(table(vinos$variedad) > 1000)
+sum(is.na(vinos$variedad))
+```
+
+>	Nombre de la viña que produce el vino
+
+```{r vina}
+head(vinos$vina)
+length(unique(vinos$vina))
+sum(table(vinos$vina) > 100)
+sum(is.na(vinos$vina))
+```
+
+> Título de la reseña. No están traducidos al español. En la mayoría de los
+casos solo indica el año de cosecha y el nombre del vino
+
+```{r titulo_resena}
+head(vinos$titulo_resena)
+length(unique(vinos$titulo_resena))
+sum(table(vinos$titulo_resena) > 5)
+sum(is.na(vinos$titulo_resena))
+```
+
+Tenemos el año de cosecha, pero no el año de la reseña.
+
+```{r ano}
+ano <- str_extract(vinos$titulo_resena, "[12][09][0-9]{2}")
+ano <- as.numeric(ano)
+summary(ano)
+hist(ano)
+```
+
+## Limpieza
+
+Remover las comillas en los nombres de los vinos.
+
+```{r comillas}
+vinos %>% filter(str_detect(nombre, "^‘"))
+vinos %>% filter(nombre == "'S'" | nombre == "‘S'")
+vinos$nombre <- str_replace_all(vinos$nombre, "‘", "")
+vinos$nombre <- str_replace_all(vinos$nombre, "'", "")
+sum(str_detect(vinos$nombre, "‘"), na.rm = TRUE)
+```
+
+Guardar las viñas con más de 15 vinos con reseñas.
+
+```{r limpieza}
+guarda_vinas <- vinas <- vinos %>%
+  select(nombre, vina) %>%
+  na.omit() %>%
+  group_by(vina) %>%
+  summarize(n_vinos = length(unique(nombre))) %>%
+  filter(n_vinos > 15)
+```
+
+```{r filtrar}
+v <- vinos %>%
+  select(nombre, puntos, precio, variedad, vina) %>%
+  na.omit() %>%
+  semi_join(guarda_vinas, by = "vina")
+dim(v)
+stopifnot(length(intersect(guarda_vinas$vina, v$vina)) == nrow(guarda_vinas))
+```
+
+Calcula el promedio de las reseñas para el mismo vino:
+
+```{r promedio}
+v <- v %>%
+  group_by(nombre, variedad, vina) %>%
+  summarize(puntos = mean(puntos),
+            precio = mean(precio)) %>%
+  ungroup()
+```
+
+## La correlación entre calidad y precio por viña
+
+```{r correlacion}
+v_corr <- v %>%
+  group_by(vina) %>%
+  summarize(n = n(),
+            corr = cor(puntos, precio))
+```
+
+```{r hist}
+p_hist <- ggplot(v_corr, aes(x = corr)) +
+  geom_histogram(binwidth = 0.025) +
+  labs(x = "Correlación entre calidad y precio",
+       y = "Número de viñas",
+       title = "Distribución de correlación por viña")
+p_hist
+```
+
+Lo más positivo.
+
+```{r positivo}
+(vina_pos <- v_corr %>% filter(corr == max(corr, na.rm = TRUE)))
+p_pos <- v %>%
+  filter(vina == vina_pos$vina) %>%
+  ggplot(aes(x = puntos, y = precio)) +
+  geom_point() +
+  labs(x = "Calidad (puntos 1 a 100)",
+       y = "Precio (USD)",
+       title = vina_pos$vina,
+       subtitle = sprintf("Correlación: %.2f", vina_pos$corr))
+p_pos
+```
+
+Lo más negativo.
+
+```{r negativo}
+(vina_neg <- v_corr %>% filter(corr == min(corr, na.rm = TRUE)))
+p_neg <- v %>%
+  filter(vina == vina_neg$vina) %>%
+  ggplot(aes(x = puntos, y = precio)) +
+  geom_point() +
+  labs(x = "Calidad (puntos 1 a 100)",
+       y = "Precio (USD)",
+       title = vina_neg$vina,
+       subtitle = sprintf("Correlación: %.2f", vina_neg$corr))
+p_neg
+```
+
+Ningún relación.
+
+```{r ningun}
+(vina_nin <- v_corr %>% filter(is.na(corr)))
+p_nin <- v %>%
+  filter(vina == vina_nin$vina) %>%
+  ggplot(aes(x = puntos, y = precio)) +
+  geom_point() +
+  labs(x = "Calidad (puntos 1 a 100)",
+       y = "Precio (USD)",
+       title = vina_nin$vina,
+       subtitle = "No correlación")
+p_nin
+```
+
+```{r final, fig.width=8, fig.height=8}
+plot_grid(p_hist, p_pos, p_neg, p_nin)
+```
