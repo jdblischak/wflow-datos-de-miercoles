@@ -76,9 +76,7 @@ h6 {
 </style>
 
 
-</head>
 
-<body>
 
 <style type = "text/css">
 .main-container {
@@ -102,6 +100,9 @@ img {
 }
 button.code-folding-btn:focus {
   outline: none;
+}
+summary {
+  display: list-item;
 }
 </style>
 
@@ -194,8 +195,6 @@ $(document).ready(function () {
 });
 </script>
 
-<div class="container-fluid main-container">
-
 <!-- tabsets -->
 
 <style type="text/css">
@@ -252,48 +251,9 @@ $(document).ready(function () {
 }
 </style>
 
-<script>
-$(document).ready(function () {
-  window.buildTabsets("TOC");
-});
-
-$(document).ready(function () {
-  $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
-  });
-});
-</script>
-
 <!-- code folding -->
 
 
-
-<script>
-$(document).ready(function ()  {
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <style type="text/css">
 
@@ -342,8 +302,6 @@ div.tocify {
 
 .tocify-subheader .tocify-item {
   font-size: 0.90em;
-  padding-left: 25px;
-  text-indent: 0;
 }
 
 .tocify .list-group-item {
@@ -352,6 +310,16 @@ div.tocify {
 
 
 </style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
 <div class="row-fluid">
@@ -412,8 +380,8 @@ div.section {
 
 
 <h1 class="title toc-ignore">2019-06-12-vinos</h1>
-<h4 class="author"><em>John Blischak</em></h4>
-<h4 class="date"><em>2019-06-12</em></h4>
+<h4 class="author">John Blischak</h4>
+<h4 class="date">2019-06-12</h4>
 
 </div>
 
@@ -438,7 +406,7 @@ div.section {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2019-06-13
+<strong>Last updated:</strong> 2019-06-20
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
@@ -529,18 +497,23 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjdblischakwflowdatosdemiercolestree8115b8a492183742b1bd923e03f26206b6c140adtargetblank8115b8aa"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jdblischak/wflow-datos-de-miercoles/tree/8115b8a492183742b1bd923e03f26206b6c140ad" target="_blank">8115b8a</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomjdblischakwflowdatosdemiercolestreea158430c0d44ca08318537d9534671bc45798970targetblanka158430a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/jdblischak/wflow-datos-de-miercoles/tree/a158430c0d44ca08318537d9534671bc45798970" target="_blank">a158430</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomjdblischakwflowdatosdemiercolestree8115b8a492183742b1bd923e03f26206b6c140adtargetblank8115b8aa" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomjdblischakwflowdatosdemiercolestreea158430c0d44ca08318537d9534671bc45798970targetblanka158430a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility. The version displayed above was the version of the Git repository at the time these results were generated. <br><br> Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
 </p>
 <pre><code>
 Ignored files:
+    Ignored:    .Rhistory
     Ignored:    .Rproj.user/
-    Ignored:    docs/figure/
+
+Untracked files:
+    Untracked:  analysis/2019-06-19-leyes.Rmd
+    Untracked:  data/cambios.csv
+    Untracked:  data/leyes.csv
 
 </code></pre>
 <p>
@@ -579,6 +552,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/a158430c0d44ca08318537d9534671bc45798970/analysis/2019-06-12-vinos.Rmd" target="_blank">a158430</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-20
+</td>
+<td>
+Actualiza el análisis de vinos.
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/jdblischak/wflow-datos-de-miercoles/aa57891994ef6472888978322223720d9559e8f5/docs/2019-06-12-vinos.html" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -648,27 +655,63 @@ empezar
 </div>
 <div id="preparacion" class="section level2">
 <h2>Preparación</h2>
-<pre class="r"><code>library(stringr)
-library(tidyverse)
+<pre class="r"><code>library(tidyverse)
 library(cowplot)
 theme_set(theme_cowplot())</code></pre>
-<pre class="r"><code>vinos &lt;- read_csv(&quot;data/vinos.csv&quot;)</code></pre>
+<pre class="r"><code>vinos &lt;- read_csv(&quot;data/vinos.csv&quot;, col_types = &quot;cciicccccc&quot;)</code></pre>
 </div>
 <div id="exploracion" class="section level2">
 <h2>Exploración</h2>
 <pre class="r"><code>head(vinos)</code></pre>
 <pre><code># A tibble: 6 x 10
-  pais   nombre  puntos precio provincia  region_1 region_2 variedad vina 
-  &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;
-1 Italia Vulkà …     87     NA Sicily &amp; … Etna     &lt;NA&gt;     Ensambl… Nico…
-2 Portu… Avidag…     87     15 Douro      &lt;NA&gt;     &lt;NA&gt;     Portugu… Quin…
-3 Estad… &lt;NA&gt;        87     14 Oregon     Willame… Willame… Pinot G… Rain…
-4 Estad… Reserv…     87     13 Michigan   Lake Mi… &lt;NA&gt;     Riesling St. …
-5 Estad… Vintne…     87     65 Oregon     Willame… Willame… Pinot N… Swee…
-6 España Ars In…     87     15 Northern … Navarra  &lt;NA&gt;     Tempran… Tand…
-# ... with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
+  pais  nombre puntos precio provincia region_1 region_2 variedad vina 
+  &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;
+1 Ital… Vulkà…     87     NA Sicily &amp;… Etna     &lt;NA&gt;     Ensambl… Nico…
+2 Port… Avida…     87     15 Douro     &lt;NA&gt;     &lt;NA&gt;     Portugu… Quin…
+3 Esta… &lt;NA&gt;       87     14 Oregon    Willame… Willame… Pinot G… Rain…
+4 Esta… Reser…     87     13 Michigan  Lake Mi… &lt;NA&gt;     Riesling St. …
+5 Esta… Vintn…     87     65 Oregon    Willame… Willame… Pinot N… Swee…
+6 Espa… Ars I…     87     15 Northern… Navarra  &lt;NA&gt;     Tempran… Tand…
+# … with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
 <pre class="r"><code>plot(vinos$puntos, vinos$precio)</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/exploracion-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-exploracion-1">
+Past versions of exploracion-1.png
+</button>
+</p>
+<div id="fig-exploracion-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/exploracion-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>dim(vinos)</code></pre>
 <pre><code>[1] 129971     10</code></pre>
 <pre class="r"><code>unique(vinos$pais)</code></pre>
@@ -765,6 +808,43 @@ sum(table(vinos$nombre) &gt; 5)</code></pre>
   80.00   86.00   88.00   88.45   91.00  100.00 </code></pre>
 <pre class="r"><code>hist(vinos$puntos)</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/puntos-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-puntos-1">
+Past versions of puntos-1.png
+</button>
+</p>
+<div id="fig-puntos-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/puntos-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>stopifnot(is.integer(vinos$puntos))
 sum(is.na(vinos$puntos))</code></pre>
 <pre><code>[1] 0</code></pre>
@@ -778,6 +858,43 @@ sum(is.na(vinos$puntos))</code></pre>
    4.00   17.00   25.00   35.36   42.00 3300.00    8996 </code></pre>
 <pre class="r"><code>hist(vinos$precio)</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/precio-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-precio-1">
+Past versions of precio-1.png
+</button>
+</p>
+<div id="fig-precio-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/precio-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>stopifnot(is.integer(vinos$precio))
 sum(is.na(vinos$precio))</code></pre>
 <pre><code>[1] 8996</code></pre>
@@ -831,24 +948,61 @@ summary(ano)</code></pre>
    1000    2009    2011    2011    2013    2017    4626 </code></pre>
 <pre class="r"><code>hist(ano)</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/ano-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ano-1">
+Past versions of ano-1.png
+</button>
+</p>
+<div id="fig-ano-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/ano-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </div>
 <div id="limpieza" class="section level2">
 <h2>Limpieza</h2>
 <p>Remover las comillas en los nombres de los vinos.</p>
 <pre class="r"><code>vinos %&gt;% filter(str_detect(nombre, &quot;^‘&quot;))</code></pre>
 <pre><code># A tibble: 2 x 10
-  pais   nombre  puntos precio provincia  region_1 region_2 variedad vina 
-  &lt;chr&gt;  &lt;chr&gt;    &lt;int&gt;  &lt;int&gt; &lt;chr&gt;      &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;
-1 Estad… ‘Rough…     89     20 Washington Columbi… Columbi… Ensambl… Barr…
-2 Estad… ‘S&#39;         92     45 Oregon     Chehale… Willame… Pinot N… Lach…
-# ... with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
+  pais  nombre puntos precio provincia region_1 region_2 variedad vina 
+  &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;
+1 Esta… ‘Roug…     89     20 Washingt… Columbi… Columbi… Ensambl… Barr…
+2 Esta… ‘S&#39;        92     45 Oregon    Chehale… Willame… Pinot N… Lach…
+# … with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
 <pre class="r"><code>vinos %&gt;% filter(nombre == &quot;&#39;S&#39;&quot; | nombre == &quot;‘S&#39;&quot;)</code></pre>
 <pre><code># A tibble: 2 x 10
-  pais   nombre puntos precio provincia region_1  region_2  variedad vina 
-  &lt;chr&gt;  &lt;chr&gt;   &lt;int&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;
-1 Estad… &#39;S&#39;        89     50 Oregon    Chehalem… Willamet… Pinot N… Lach…
-2 Estad… ‘S&#39;        92     45 Oregon    Chehalem… Willamet… Pinot N… Lach…
-# ... with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
+  pais  nombre puntos precio provincia region_1 region_2 variedad vina 
+  &lt;chr&gt; &lt;chr&gt;   &lt;int&gt;  &lt;int&gt; &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;
+1 Esta… &#39;S&#39;        89     50 Oregon    Chehale… Willame… Pinot N… Lach…
+2 Esta… ‘S&#39;        92     45 Oregon    Chehale… Willame… Pinot N… Lach…
+# … with 1 more variable: titulo_resena &lt;chr&gt;</code></pre>
 <pre class="r"><code>vinos$nombre &lt;- str_replace_all(vinos$nombre, &quot;‘&quot;, &quot;&quot;)
 vinos$nombre &lt;- str_replace_all(vinos$nombre, &quot;&#39;&quot;, &quot;&quot;)
 sum(str_detect(vinos$nombre, &quot;‘&quot;), na.rm = TRUE)</code></pre>
@@ -889,6 +1043,43 @@ dim(v)</code></pre>
 p_hist</code></pre>
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/hist-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-hist-1">
+Past versions of hist-1.png
+</button>
+</p>
+<div id="fig-hist-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/hist-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Lo más positivo.</p>
 <pre class="r"><code>(vina_pos &lt;- v_corr %&gt;% filter(corr == max(corr, na.rm = TRUE)))</code></pre>
 <pre><code># A tibble: 1 x 3
@@ -905,6 +1096,43 @@ p_hist</code></pre>
        subtitle = sprintf(&quot;Correlación: %.2f&quot;, vina_pos$corr))
 p_pos</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/positivo-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-positivo-1">
+Past versions of positivo-1.png
+</button>
+</p>
+<div id="fig-positivo-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/positivo-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Lo más negativo.</p>
 <pre class="r"><code>(vina_neg &lt;- v_corr %&gt;% filter(corr == min(corr, na.rm = TRUE)))</code></pre>
 <pre><code># A tibble: 1 x 3
@@ -921,6 +1149,43 @@ p_pos</code></pre>
        subtitle = sprintf(&quot;Correlación: %.2f&quot;, vina_neg$corr))
 p_neg</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/negativo-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-negativo-1">
+Past versions of negativo-1.png
+</button>
+</p>
+<div id="fig-negativo-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/negativo-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Ningún relación.</p>
 <pre class="r"><code>(vina_nin &lt;- v_corr %&gt;% filter(is.na(corr)))</code></pre>
 <pre><code># A tibble: 1 x 3
@@ -937,9 +1202,83 @@ p_neg</code></pre>
        subtitle = &quot;No correlación&quot;)
 p_nin</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/ningun-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ningun-1">
+Past versions of ningun-1.png
+</button>
+</p>
+<div id="fig-ningun-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/ningun-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <pre class="r"><code>plot_grid(p_hist, p_pos, p_neg, p_nin)</code></pre>
 <pre><code>Warning: Removed 1 rows containing non-finite values (stat_bin).</code></pre>
 <p><img src="figure/2019-06-12-vinos.Rmd/final-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-final-1">
+Past versions of final-1.png
+</button>
+</p>
+<div id="fig-final-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/jdblischak/wflow-datos-de-miercoles/blob/aa57891994ef6472888978322223720d9559e8f5/docs/figure/2019-06-12-vinos.Rmd/final-1.png" target="_blank">aa57891</a>
+</td>
+<td>
+John Blischak
+</td>
+<td>
+2019-06-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -948,41 +1287,45 @@ p_nin</code></pre>
 </p>
 <div id="workflowr-sessioninfo" class="collapse">
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>R version 3.3.3 (2017-03-06)
-Platform: x86_64-apple-darwin13.4.0 (64-bit)
-Running under: OS X Yosemite 10.10.5
+<pre><code>R version 3.6.0 (2019-04-26)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 18.04.2 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3.10.3
+LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3
 
 locale:
-[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+ [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+ [3] LC_TIME=en_US.UTF-8        LC_COLLATE=en_US.UTF-8    
+ [5] LC_MONETARY=en_US.UTF-8    LC_MESSAGES=en_US.UTF-8   
+ [7] LC_PAPER=en_US.UTF-8       LC_NAME=C                 
+ [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+[11] LC_MEASUREMENT=en_US.UTF-8 LC_IDENTIFICATION=C       
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
- [1] bindrcpp_0.2.2  cowplot_0.9.2   forcats_0.3.0   dplyr_0.7.7    
- [5] purrr_0.2.5     readr_1.1.1     tidyr_0.8.1     tibble_1.4.2   
- [9] ggplot2_3.1.0   tidyverse_1.2.1 stringr_1.4.0  
+ [1] cowplot_0.9.4   forcats_0.4.0   stringr_1.4.0   dplyr_0.8.1    
+ [5] purrr_0.3.2     readr_1.3.1     tidyr_0.8.3     tibble_2.1.3   
+ [9] ggplot2_3.1.1   tidyverse_1.2.1
 
 loaded via a namespace (and not attached):
- [1] tidyselect_0.2.3  xfun_0.3          reshape2_1.4.3   
- [4] haven_1.1.0       lattice_0.20-35   colorspace_1.3-2 
- [7] htmltools_0.3.6   yaml_2.2.0        utf8_1.1.3       
-[10] rlang_0.3.0.1     pillar_1.2.2      withr_2.1.2.9000 
-[13] foreign_0.8-69    glue_1.2.0.9000   modelr_0.1.2     
-[16] readxl_1.0.0      bindr_0.1.1       plyr_1.8.4       
-[19] munsell_0.5.0     gtable_0.2.0      workflowr_1.4.0  
-[22] cellranger_1.1.0  rvest_0.3.2       psych_1.8.4      
-[25] evaluate_0.10.1   labeling_0.3      knitr_1.21       
-[28] parallel_3.3.3    broom_0.4.4       Rcpp_1.0.0       
-[31] backports_1.1.2   scales_0.5.0      jsonlite_1.5     
-[34] fs_1.2.6          mnormt_1.5-5      hms_0.4.2        
-[37] digest_0.6.13     stringi_1.3.1     grid_3.3.3       
-[40] rprojroot_1.3-2   cli_1.0.0         tools_3.3.3      
-[43] magrittr_1.5      lazyeval_0.2.1    crayon_1.3.4     
-[46] whisker_0.3-2     pkgconfig_2.0.1   xml2_1.1.1       
-[49] lubridate_1.7.1   assertthat_0.2.0  rmarkdown_1.10.14
-[52] httr_1.3.1        rstudioapi_0.8    htmldeps_0.1.1   
-[55] R6_2.2.2          nlme_3.1-131      git2r_0.25.2.9008</code></pre>
+ [1] tidyselect_0.2.5 xfun_0.7         haven_2.1.0      lattice_0.20-38 
+ [5] colorspace_1.4-1 generics_0.0.2   vctrs_0.1.0      htmltools_0.3.6 
+ [9] yaml_2.2.0       utf8_1.1.4       rlang_0.3.4      pillar_1.4.1    
+[13] glue_1.3.1       withr_2.1.2      modelr_0.1.4     readxl_1.3.1    
+[17] plyr_1.8.4       munsell_0.5.0    gtable_0.3.0     workflowr_1.4.0 
+[21] cellranger_1.1.0 rvest_0.3.4      evaluate_0.14    labeling_0.3    
+[25] knitr_1.23       fansi_0.4.0      broom_0.5.2      Rcpp_1.0.1      
+[29] scales_1.0.0     backports_1.1.4  jsonlite_1.6     fs_1.3.1        
+[33] hms_0.4.2        digest_0.6.19    stringi_1.4.3    grid_3.6.0      
+[37] rprojroot_1.2    cli_1.1.0        tools_3.6.0      magrittr_1.5    
+[41] lazyeval_0.2.2   zeallot_0.1.0    crayon_1.3.4     whisker_0.3-2   
+[45] pkgconfig_2.0.2  xml2_1.2.0       lubridate_1.7.4  assertthat_0.2.1
+[49] rmarkdown_1.13.4 httr_1.4.0       rstudioapi_0.10  R6_2.4.0        
+[53] nlme_3.1-140     git2r_0.25.2     compiler_3.6.0  </code></pre>
 </div>
 </div>
 
@@ -1016,6 +1359,49 @@ $(document).ready(function () {
 });
 
 
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
 </script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
