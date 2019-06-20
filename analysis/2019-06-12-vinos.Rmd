@@ -17,14 +17,13 @@ editor_options:
 ## Preparación
 
 ```{r paqs, message=FALSE}
-library(stringr)
 library(tidyverse)
 library(cowplot)
 theme_set(theme_cowplot())
 ```
 
 ```{r datos, message=FALSE}
-vinos <- read_csv("data/vinos.csv")
+vinos <- read_csv("data/vinos.csv", col_types = "cciicccccc")
 ```
 
 ## Exploración
