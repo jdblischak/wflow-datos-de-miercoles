@@ -1,0 +1,105 @@
+---
+title: "2019-06-19-leyes"
+author: "John Blischak"
+date: "2019-06-19"
+output: workflowr::wflow_html
+editor_options:
+  chunk_output_type: console
+---
+
+## Introducción
+
+* [Tweet](https://twitter.com/R4DS_es/status/1141369896070238208)
+* [Descripción](https://github.com/cienciadedatos/datos-de-miercoles/tree/master/datos/2019/2019-06-19)
+* Datos: [leyes](https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-06-19/leyes.csv) y [cambios](https://raw.githubusercontent.com/cienciadedatos/datos-de-miercoles/master/datos/2019/2019-06-19/cambios.csv)
+* [Fuente](https://ilga.org/es/homofobia-de-estado-2019)
+
+## Preparación
+
+```{r paqs, message=FALSE}
+library(tidyverse)
+library(cowplot)
+theme_set(theme_cowplot())
+library(rvest)
+```
+
+```{r datos, message=FALSE}
+leyes <- read_csv("data/leyes.csv")
+cambios <- read_csv("data/cambios.csv")
+```
+
+## Exploración
+
+```{r exploracion-leyes}
+head(leyes)
+dim(leyes)
+str(leyes)
+length(unique(leyes$pais_es))
+leyes %>% count(criminalizacion_genero)
+leyes %>% 
+  filter(criminalizacion_genero != "no_aplica") %>%
+  mutate(criminalizacion_pena = ifelse(criminalizacion_pena == "indeterminado",
+                                       NA, criminalizacion_pena)) %>%
+  group_by(criminalizacion_genero) %>%
+  summarize(pena = mean(as.numeric(criminalizacion_pena)))
+```
+
+```{r exploracion-cambios}
+head(cambios)
+dim(cambios)
+str(cambios)
+length(unique(cambios$pais_es))
+cambios %>% count(datos_2017)
+cambios %>% count(datos_2019)
+```
+
+## Análisis de población
+
+```{r poblacion}
+poblacion <- read_csv("data/population_total.csv")
+colnames(poblacion)[2:ncol(poblacion)] <- paste0("ano",
+                                                 colnames(poblacion)[2:ncol(poblacion)])
+poblacion[1:5, 1:5]
+poblacion <- poblacion %>%
+  select(country, ano2017, ano2019)
+head(poblacion)
+```
+
+
+```{r paises}
+fname_paises <- "data/paises.csv"
+if (file.exists(fname_paises)) {
+  paises <- read_csv(fname_paises, col_types = "cc")
+} else {
+  # descargar y guardar como archivo
+  paises <- read_html("https://www.101languages.net/spanish/country-names-spanish/") %>%
+    html_node("table") %>%
+    html_table() %>%
+    as_tibble() %>%
+    arrange(Spanish)
+  write_csv(paises, path = fname_paises)
+}
+head(paises)
+```
+
+```{r}
+cambios <- cambios %>%
+  arrange(pais_es) %>%
+  cbind(paises)
+```
+
+Not currently working :-(
+
+```{r}
+final <- cambios %>%
+  full_join(poblacion, by = c("English" = "country"))
+```
+
+Recursos:
+
+https://forcats.tidyverse.org/reference/fct_cross.html
+https://www.gapminder.org/data/
+https://www.gapminder.org/data/documentation/gd003/
+https://www.101languages.net/spanish/country-names-spanish/
+https://rvest.tidyverse.org/reference/html_table.html
+https://www.rdocumentation.org/packages/ggforce/versions/0.2.2/topics/geom_parallel_sets
